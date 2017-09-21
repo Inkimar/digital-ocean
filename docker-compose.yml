@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  proxy:
+    image: dina/proxy:v0
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs:ro
+     # - ./nginx-proxy.conf:/etc/nginx/conf.d/nginx-proxy.conf:ro
+    environment:
+      - DNSDOCK_ALIAS=projektplatsen.net
+
+  dnsdock:
+    image: aacebedo/dnsdock:v1.15.0-amd64
+    container_name: dnsserver
+    ports:
+      - 172.17.0.1:53:53/udp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  #dnsmasq:
+  #  image: andyshinn/dnsmasq:2.76
+  #  command: --log-facility=-
+  #  container_name: dnsmasq
+  #  cap_add:
+  #    - NET_ADMIN
+  #  ports:
+  #    - 172.17.0.1:53:53/tcp
+  #    - 172.17.0.1:53:53/udp
+
+
+  mirroreum:
+    image: raquamaps/mirroreum:latest
+    container_name: mirroreum
+    env_file: ./.env/.env_rstudio
+    environment:
+      - VIRTUAL_HOST=rstudio.projektplatsen.net
+      - VIRTUAL_PORT=8787
+    volumes:
+      - data_mirroreum:/home/rstudio
+
+volumes:
+  data_mirroreum:
+
