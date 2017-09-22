@@ -1,5 +1,6 @@
 # digital-ocean
-an effort to create a docker-project with multiple service like rstudio,dmail,chat and soforth
+an effort to create a docker-project with multiple service like rstudio,dmail,chat and soforth.
+( inspiration from https://github.com/bioatlas/ala-docker )
 
 ## rstudio for naturalist-migration
 This project  facilitates the running of R-scripts for migrating media-files and data from naturforskaren.se (source) to a mediaserver (target).
